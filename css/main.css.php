@@ -106,7 +106,7 @@ html, body {
     width: 1em;
     background-image: url("../sprites/char.png");
     background-repeat: no-repeat;
-    background-size: 10em 65px;
+    background-size: 10em 1em;
     position: relative;
     top: 4em;
     left: 4em;
