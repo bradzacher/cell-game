@@ -11,6 +11,7 @@
     );
 
     $characterAnimTime = 0.2;
+    $roomTransitionTime = 0.6
 ?>
 
 html, body {
@@ -53,9 +54,10 @@ html, body {
     height: 8em;
     width: 8em;
     background-image: url("../sprites/pallet_town.png");
-    background-position: 0em em;
+    background-position: 0em 0em;
     background-repeat: no-repeat;
-    background-size: 35em 30em;
+    position: relative;
+    overflow: hidden;
 
 <?php
     foreach ($vendorPrefixes as $pre) {
@@ -65,19 +67,22 @@ html, body {
     }
 ?>
 }
+#camera > div {
+    position: absolute;
+}
 
 #camera.room-transition {
 <?php
     foreach ($vendorPrefixes as $pre) {
 ?>
-    <?=$pre?>transition: background-position 0.3s step-end;
+    <?=$pre?>transition: background-position <?=($roomTransitionTime/2)?>s step-end;
 <?php
     }
 ?>
 <?php
         foreach ($vendorPrefixes as $pre) {
 ?>
-    <?=$pre?>animation: room-transition-frame 0.6s linear;
+    <?=$pre?>animation: room-transition-frame <?=$roomTransitionTime?>s linear;
 <?php
         }
 ?>
@@ -106,10 +111,9 @@ html, body {
     width: 1em;
     background-image: url("../sprites/char.png");
     background-repeat: no-repeat;
-    background-size: 10em 1em;
-    position: relative;
-    top: 4em;
+    top: calc(4em - 0.25em); /* the game offsets the character upward slightly */
     left: 4em;
+    z-index: 1;
 }
 
 /* character animation classes */
@@ -157,6 +161,66 @@ html, body {
     }
 ?>
 
-#overworld {
-
+.game-object {
+    background-image: url('../sprites/objects.png');
+<?php
+    foreach ($vendorPrefixes as $pre) {
+?>
+    <?=$pre?>transition: top <?=$characterAnimTime?>s linear, left <?=$characterAnimTime?>s linear;
+<?php
+    }
+?>
 }
+
+.game-object-unload {
+<?php
+    foreach ($vendorPrefixes as $pre) {
+?>
+    <?=$pre?>animation: game-obect-unload-frame <?=($roomTransitionTime/2)?>s linear;
+<?php
+    }
+?>
+}
+
+<?php
+    foreach ($vendorPrefixes as $pre) {
+?>
+@<?=$pre?>keyframes game-obect-unload-frame {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+<?php
+    }
+?>
+
+.game-object-load {
+<?php
+    foreach ($vendorPrefixes as $pre) {
+?>
+    <?=$pre?>animation: game-obect-load-frame <?=$roomTransitionTime?>s linear;
+<?php
+    }
+?>
+}
+
+<?php
+    foreach ($vendorPrefixes as $pre) {
+?>
+@<?=$pre?>keyframes game-obect-load-frame {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+<?php
+    }
+?>

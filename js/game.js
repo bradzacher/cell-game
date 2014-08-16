@@ -19,8 +19,7 @@
 
         this.state = STATES.STANDING;
 
-        this.loadRoom(namespace.rooms.myHouseBedroom); // load up the bedroom
-        this.character.setCameraPosition(characterCameraPos, true); // move him to the center of the screen
+        this.loadRoom(namespace.rooms.myHouseBedroom, true); // load up the bedroom don't do transitions
         this.character.setPosition(new Point(3, 6)); // set his game location to just below the game console
 
         this.updateCamera(true);
@@ -31,18 +30,18 @@
         }.bind(this));
 
         // vanilla javascript touch detection code taken from: http://stackoverflow.com/a/23230280/3736051
-        document.addEventListener('touchstart', handleTouchStart.bind(this), false);
-        document.addEventListener('touchmove', handleTouchMove.bind(this), false);
+        document.addEventListener('touchstart', handleTouchStart, false);
+        document.addEventListener('touchmove', handleTouchMove, false);
 
         var xDown = null;
         var yDown = null;
 
-        function handleTouchStart(evt) {
+        var handleTouchStart = function(evt) {
             xDown = evt.touches[0].clientX;
             yDown = evt.touches[0].clientY;
-        }
+        }.bind(this);
 
-        function handleTouchMove(evt) {
+        var handleTouchMove = function(evt) {
             if ( ! xDown || ! yDown ) {
                 return;
             }
@@ -77,7 +76,7 @@
             /* reset values */
             xDown = null;
             yDown = null;
-        }
+        }.bind(this);
     }
 
     /**
@@ -164,9 +163,10 @@
             this.disableCameraAnimation();
         }
 
+        var pos = this.currentRoom.updateCamera(this.character, characterCameraPos);
         this.cameraEl.css('background-position',
-            (this.currentRoom.background.x + characterCameraPos.x - this.character.location.x) + 'em' + ' ' +
-            (this.currentRoom.background.y + characterCameraPos.y - this.character.location.y) + 'em'
+            pos.x + 'em' + ' ' +
+            pos.y + 'em'
         );
 
         if (notransition) {
@@ -177,8 +177,11 @@
     /**
      * Causes the game to load the specified room
      */
-    Game.prototype.loadRoom = function(room) {
-        this.currentRoom = room.load(this.cameraEl);
+    Game.prototype.loadRoom = function(room, notransition) {
+        if (this.currentRoom) {
+            this.currentRoom.unload();
+        }
+        this.currentRoom = room.load(this.cameraEl, notransition);
     };
 
     /**
