@@ -66,5 +66,15 @@
     }
     window['TransitionPoint'] = TransitionPoint;
 
+    /**
+     * Recolours an image completely
+     *//*
+    function FilterImage(imageSrc, colour) {
+        var img = new Image();
+        img.src = imageSrc;
+        img.onload = function() {
 
+        }
+    }
+    window['FilterImage'] = FilterImage;*/
 })(window.profile = window.profile || {});

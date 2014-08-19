@@ -20,6 +20,22 @@ html, body {
     margin: 0;
     font-size: 64px; /* each cell in the world is 64px*64px, this me use em to move things around*/
 }
+body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#header {
+    text-align: center;
+    font-size: 30px;
+}
+
+#footer {
+    font-size: 12px;
+}
 
 #body-container {
     height: 100%;
@@ -71,11 +87,11 @@ html, body {
     position: absolute;
 }
 
-#camera.room-transition {
+.room-transition {
 <?php
     foreach ($vendorPrefixes as $pre) {
 ?>
-    <?=$pre?>transition: background-position <?=($roomTransitionTime/2)?>s step-end;
+    <?=$pre?>transition: background-position <?=($roomTransitionTime/2)?>s step-end !important;
 <?php
     }
 ?>
@@ -113,7 +129,7 @@ html, body {
     background-repeat: no-repeat;
     top: calc(4em - 0.25em); /* the game offsets the character upward slightly */
     left: 4em;
-    z-index: 1;
+    z-index: 999;
 }
 
 /* character animation classes */

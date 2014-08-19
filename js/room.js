@@ -3,25 +3,29 @@
 
     function Room(settings) {
         $.extend(this, settings);
+        var i, j;
 
-/*
-        // it's easier to define the map transposed, so swap the rows and cols of the map
-        var temp_map = [];
-        for (var i = 0; i < this.size.w; i++) {
-            temp_map[i] = [];
-        }
-        for (var i = 0; i < this.size.h; i++) {
-            for (var j = 0; j < this.size.w; j++) {
-                temp_map[j][i] = this.map[i][j];
+        // if we have a map
+        if (this.map) {
+
+            // it's easier to define the map transposed, so swap the rows and cols of the map
+            var temp_map = [];
+            for (i = 0; i < this.size.w; i++) {
+                temp_map[i] = [];
             }
-        }
-        this.map = temp_map;
-*/
-        this.map = [];
-        for (var i = 0; i < this.size.w; i++) {
-            this.map[i] = [];
-            for (var j = 0; j < this.size.h; j++) {
-                this.map[i][j] = 1;
+            for (i = 0; i < this.size.h; i++) {
+                for (j = 0; j < this.size.w; j++) {
+                    temp_map[j][i] = this.map[i][j];
+                }
+            }
+            this.map = temp_map;
+        } else {
+            this.map = [];
+            for (i = 0; i < this.size.w; i++) {
+                this.map[i] = [];
+                for (j = 0; j < this.size.h; j++) {
+                    this.map[i][j] = 1;
+                }
             }
         }
 
