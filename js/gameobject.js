@@ -12,6 +12,14 @@
                         .css('background-position',
                             '-' + this.sprite.x + 'em -' + this.sprite.y + 'em')
                         .css('background-repeat', 'no-repeat');
+            if (this.highlight) {
+                this.el.addClass('highlight');
+                this.subEl = $(document.createElement('div'))
+                                .css('background-position',
+                                    '-' + this.sprite.x + 'em -' + this.sprite.y + 'em')
+                                .appendTo(this.el);
+
+            }
         }
     }
 

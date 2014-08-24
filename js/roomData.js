@@ -11,7 +11,8 @@
                     loc: new Point(0, 0),
                     size: new Size(1, 2),
                     sprite: new Point(0, 3),
-                    collision: 'block'
+                    collision: 'block',
+                    highlight: true
                 }),
                 new GameObject({
                     name: 'Desk',
@@ -32,7 +33,8 @@
                     loc: new Point(3, 5),
                     size: new Size(1, 1),
                     sprite: new Point(1, 4),
-                    collision: 'block'
+                    collision: 'block',
+                    highlight: true
                 }),
                 new GameObject({
                     name: 'Bed',
@@ -84,7 +86,8 @@
                     loc: new Point(3, 1),
                     size: new Size(1, 1),
                     sprite: new Point(0, 0),
-                    collision: 'block'
+                    collision: 'block',
+                    highlight: true
                 }),
                 new GameObject({
                     name: 'Table',

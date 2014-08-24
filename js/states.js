@@ -73,6 +73,7 @@
                     xDown = e.touches[0].clientX;
                     yDown = e.touches[0].clientY;
 
+                    // stop overscrolling
                     e.preventDefault();
                 },
                 touchmove: function (e) {
@@ -110,6 +111,7 @@
                     xDown = null;
                     yDown = null;
 
+                    // stop overscrolling
                     e.preventDefault();
                 }
             };

@@ -68,13 +68,40 @@
 
     /**
      * Recolours an image completely
-     *//*
-    function FilterImage(imageSrc, colour) {
+     */
+    function FilterImage() {
         var img = new Image();
-        img.src = imageSrc;
-        img.onload = function() {
 
-        }
+        img.onload = function() {
+            // draw the image on a new canvas
+            var canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            var context = canvas.getContext('2d');
+            context.drawImage(img, 0, 0, img.width, img.height);
+
+            // recolour all the pixels
+            var pixels = context.getImageData(0, 0, img.width, img.height);
+            var d = pixels.data;
+            for (var i = 0; i < d.length; i+=4) {
+                  // recolour to red
+                  d[i]   = 255;//d[i];
+                  d[i+1] = 0;
+                  d[i+2] = 0;
+                  d[i+3] = (d[i+3] === 0) ? 0 : d[i+3];
+            }
+
+            context.putImageData(pixels, 0, 0, 0, 0, img.height, img.width);
+
+            var recolouredSpritesheet = canvas.toDataURL('image/png');
+
+            var style = document.createElement('style');
+            style.type = 'text/css';
+            style.innerHTML = '.game-object.highlight { background-image: url(' + recolouredSpritesheet + '); }';
+            document.getElementsByTagName('head')[0].appendChild(style);
+        };
+
+        img.src = 'http://zacher.com.au/home/sprites/objects.png';
     }
-    window['FilterImage'] = FilterImage;*/
+    window['FilterImage'] = FilterImage;
 })(window.profile = window.profile || {});

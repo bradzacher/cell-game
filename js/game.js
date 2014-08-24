@@ -127,6 +127,10 @@
             this.cameraEl.removeClass('room-transition');
 
             this.popState();
+
+            // dispatch a fake "down" event
+            //var e = new Event('keydown');
+            //document.dispatchEvent(e);
         }.bind(this));
     };
 

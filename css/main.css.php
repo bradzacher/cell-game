@@ -35,6 +35,7 @@ body {
 
 #footer {
     font-size: 12px;
+    padding-bottom: 15px;
 }
 
 #body-container {
@@ -177,8 +178,9 @@ body {
     }
 ?>
 
-.game-object {
+.game-object, .highlight > div {
     background-image: url('../sprites/objects.png');
+    background-repeat: no-repeat;
 <?php
     foreach ($vendorPrefixes as $pre) {
 ?>
@@ -186,6 +188,11 @@ body {
 <?php
     }
 ?>
+}
+.highlight > div {
+  transform: scale(0.95, 0.95);
+  height: 100%;
+  width: 100%;
 }
 
 .game-object-unload {
