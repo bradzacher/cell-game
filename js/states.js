@@ -44,6 +44,12 @@
                     case 40:
                         didMove = this.character.moveY(+1, this.currentRoom);
                     break;
+
+                    //use
+                    case 'e'.charCodeAt(0):
+                    case 'E'.charCodeAt(0):
+                        this.interact();
+                    break;
                 }
 
                 // update the camera

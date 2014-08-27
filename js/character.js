@@ -8,9 +8,17 @@
         this.el = elem;
 
         this.el.addClass('stand-down');
+        this.facing = Character.directions.down;
 
         this.location = new Point(0, 0);
     }
+
+    Character.directions = {
+        up: 0,
+        down: 1,
+        left: 2,
+        right: 3
+    };
 
     /**
      * Sets the world-coords of the character
@@ -47,38 +55,39 @@
      * @param anim - the direction to animate (up, down, left, right)
      * @return true if the character actually moved, false otherwise
      */
-    var walkOne = function (self, room, side, direction, anim) {
+    var walkOne = function ( room, side, direction, anim) {
         var didWalk = false;
 
-        var destination = self.location.clone();
+        var destination = this.location.clone();
         destination.add(side, direction);
 
         // only move div if it's a valid destination
         if (room.pointWithinBounds(destination) && room.pointNotBlocked(destination)) {
-            self.setPosition(destination);
+            this.setPosition(destination);
             didWalk = true;
         }
 
         var movedOnce = false;
-        if ((anim === 'up' || anim === 'down') && self.el.hasClass('walk-' + anim)) {
+        if ((anim === 'up' || anim === 'down') && this.el.hasClass('walk-' + anim)) {
             movedOnce = true;
         }
+        this.facing = Character.directions[anim];
 
         // still play animation if invalid destination
-        self.el.removeClass(function (index, css) {
+        this.el.removeClass(function (index, css) {
             return (css.match (/(^|\s)stand-\S+/g) || []).join(' ');
         });
-        self.el.removeClass(function (index, css) {
+        this.el.removeClass(function (index, css) {
             return (css.match (/(^|\s)walk-\S+/g) || []).join(' ');
         });
-        self.el[0].offsetHeight;
+        this.el[0].offsetHeight;
 
         // animate
-        self.el.addClass('stand-' + anim);
+        this.el.addClass('stand-' + anim);
         if (movedOnce) {
-            self.el.addClass('walk-' + anim + '2')
+            this.el.addClass('walk-' + anim + '2');
         } else {
-            self.el.addClass('walk-' + anim);
+            this.el.addClass('walk-' + anim);
         }
 
         return didWalk;
@@ -92,7 +101,7 @@
         if (dir > 0) {
             anim = 'right';
         }
-        return walkOne(this, room, 'left', dir, anim);
+        return walkOne.call(this, room, 'left', dir, anim);
     };
 
     /**
@@ -103,7 +112,7 @@
         if (dir > 0) {
             anim = 'down';
         }
-        return walkOne(this, room, 'top', dir, anim);
+        return walkOne.call(this, room, 'top', dir, anim);
     };
 
     /**

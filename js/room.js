@@ -46,7 +46,12 @@
      * checks if the point is blocked off
      */
     Room.prototype.pointNotBlocked = function(destination) {
-        return this.map[destination.x][destination.y] === 1;
+        var at = this.map[destination.x][destination.y];
+        if (isNaN(at)) {
+            return !at.doCollision();
+        } else {
+            return at === 1;
+        }
     };
 
     /**

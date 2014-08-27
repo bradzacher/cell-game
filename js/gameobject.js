@@ -1,4 +1,6 @@
 (function (namespace) {
+    'use strict';
+
     function GameObject(settings) {
         $.extend(this, settings);
 
@@ -24,13 +26,15 @@
     }
 
     GameObject.prototype.addToRoom = function(room) {
-        if (this.collision === 'block') {
+        var fn = function(v) {
             for (var i = this.loc.x; i < (this.loc.x + this.size.w); i++) {
                 for (var j = this.loc.y; j < (this.loc.y + this.size.h); j++) {
-                    room.map[i][j] = 0;
+                    room.map[i][j] = v;
                 }
             }
-        }
+        }.bind(this);
+
+        fn(this);
     };
 
     GameObject.prototype.load = function(el, notransition) {
@@ -60,6 +64,28 @@
                    .css('left', newPos.x + 'em');
         }
     };
+
+    /**
+     * returns true if a collision occured, false otherwise
+     */
+    GameObject.prototype.doCollision = function() {
+        if (this.collision === 'block') {
+            return true;
+        } else if (!this.collision || this.collision === 'none') {
+            return false;
+        } else {
+            return this.collision.call(this);
+        }
+    };
+
+    /**
+     * triggers the interaction with the object
+     */
+     GameObject.prototype.doInteraction = function() {
+        if (this.interaction) {
+            this.interaction();
+        }
+     };
 
     window['GameObject'] = GameObject;
 })(window.profile = window.profile || {});

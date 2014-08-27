@@ -134,5 +134,28 @@
         }.bind(this));
     };
 
+    /**
+     * Triggers an interaction with the object in front of the character
+     */
+    Game.prototype.interact = function() {
+        var point = this.character.location.clone();
+        switch (this.character.facing) {
+            case Character.directions.up:
+                point.y = point.y - 1;
+            break;
+            case Character.directions.down:
+                point.y = point.y + 1;
+            break;
+            case Character.directions.left:
+                point.x = point.x - 1;
+            break;
+            case Character.directions.right:
+                point.x = point.x + 1;
+            break;
+        }
+
+        this.currentRoom.map[point.x][point.y].doInteraction();
+    };
+
     window['Game'] = Game;
 })(window.profile = window.profile || {});
