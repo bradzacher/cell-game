@@ -14,11 +14,17 @@
     $roomTransitionTime = 0.6
 ?>
 
+@font-face {
+    font-family: pokemon;
+    src: url(pokemon-gb.ttf);
+}
+
 html, body {
     width: 100%;
     height: 100%;
     margin: 0;
     font-size: 64px; /* each cell in the world is 64px*64px, this me use em to move things around*/
+    font-family: pokemon;
 }
 body {
     display: flex;
