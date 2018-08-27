@@ -1,0 +1,18 @@
+{
+  "name": "cell-game",
+  "version": "0.0.0",
+  "description": "A simple cell based interactive 'game' reminiscent of pokemon.",
+  "main": "index.html",
+  "repository": "git@github.com:bradzacher/cell-game.git",
+  "author": "Brad Zacher <brad.zacher@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "eslint": "^5.4.0",
+    "eslint-config-assignar-react": "^1.3.0",
+    "eslint-import-resolver-node": "^0.3.2",
+    "eslint-import-resolver-typescript": "^1.0.2",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.0.1"
+  }
+}
