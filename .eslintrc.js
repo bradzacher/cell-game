@@ -1,6 +1,6 @@
 module.exports = {
     extends: [
-        'assignar-node',
+        'assignar-react',
     ],
     settings: {
         'import/resolver': {

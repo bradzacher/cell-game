@@ -1,0 +1,7 @@
+build
+node_modules
+css
+.rpt2_cache
+
+# cannot handle empty constructor
+typings/spritesmith.d.ts

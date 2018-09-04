@@ -1,33 +1,29 @@
 {
     "compilerOptions": {
-        "allowJs": false,
+        "allowJs": true,
         "allowSyntheticDefaultImports": false,
         "alwaysStrict": true,
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
-		"declaration": true,
+		"declaration": false,
         "forceConsistentCasingInFileNames": true,
-        "module": "commonjs",
+        "module": "esnext",
         "noEmitOnError": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "outFile": "dist/game.js",
         "pretty": true,
         "sourceMap": true,
         "strict": true,
-        "target": "es2018",
-        "typeRoots": [
-            "node_modules/@types",
-            "types"
-        ]
+        "target": "es2018"
     },
     "include": [
         "src/**/*.ts",
+        "scripts/**/*.ts",
         "test/**/*.ts",
-        "types/**/*.d.ts"
+        "typings/**/*.d.ts"
     ],
     "exclude": [
         "node_modules",
