@@ -1,11 +1,12 @@
+const path = require('path')
+
 module.exports = {
     extends: [
-        'assignar-react',
+        'assignar-node',
     ],
     settings: {
         'import/resolver': {
-            'node': true,
-            'typescript': true,
+            [path.resolve('./scripts/resolver-typescript.js')]: {},
         },
     },
 }

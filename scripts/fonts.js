@@ -1,8 +1,4 @@
-/* eslint-disable import/no-nodejs-modules */
 import * as path from 'path'
-import { dataToEsm } from 'rollup-pluginutils'
-
-const root = path.resolve(`${__dirname}/sprites`)
 
 export default function sprites() {
     return {

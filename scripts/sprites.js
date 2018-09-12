@@ -1,15 +1,9 @@
-/* eslint-disable import/no-nodejs-modules */
-import * as fs from 'fs'
-import * as path from 'path'
 import * as glob from 'glob'
-import { dataToEsm } from 'rollup-pluginutils'
 import Spritesmith from 'spritesmith'
 
-const root = path.resolve(`${__dirname}/assets/sprites`)
-
-function createSheet() {
+function createSheet(rootPath) {
     return new Promise((resolve, reject) => {
-        const images = glob.sync(`${root}/**/*.png`)
+        const images = glob.sync(rootPath)
 
         Spritesmith.run({
             src: images,
@@ -27,8 +21,8 @@ function createSheet() {
 }
 
 
-export default function sprites() {
-    const spritesheetProm = createSheet()
+export default function sprites({ rootPath }) {
+    const spritesheetProm = createSheet(rootPath)
     let spritesheet = null
     let assetId = null
 
@@ -57,10 +51,10 @@ export default function sprites() {
             Object.keys(coords).forEach((k) => {
                 lines.push(`    ${k}: ${JSON.stringify(coords[k], null, 4)},`)
             })
+            // this is a special url to give a nice reference to the emitted file
+            // https://github.com/rollup/rollup/wiki/Plugins#asset-urls
             lines.push(`    backgroundImage: \`url("\${import.meta.ROLLUP_ASSET_URL_${assetId}}")\`,`)
             lines.push('}')
-
-            console.log(lines.join('\n'))
 
             return lines.join('\n')
         },
