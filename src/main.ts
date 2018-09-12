@@ -1,5 +1,5 @@
-import a from '../assets/sprites/char.png'
-import b from '../assets/sprites/objects/bed.png'
-import c from '../assets/fonts/pokemon-gb.ttf'
+import Engine from '~/engine/Engine'
 
-console.log(a, b, c)
+const game = new Engine()
+
+console.info(game)
