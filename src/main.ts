@@ -1,5 +1,10 @@
-import Engine from '~/engine/Engine'
+import Game from '~/engine/Game'
 
-const game = new Engine()
+const canvas = document.getElementById('#canvas') as HTMLCanvasElement | null
+if (!canvas) {
+    throw new Error('YOU FORGOT THE CANVAS, YOU NINNY!')
+}
+
+const game = new Game(canvas)
 
 console.info(game)

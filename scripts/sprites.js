@@ -53,7 +53,7 @@ export default function sprites({ rootPath }) {
             })
             // this is a special url to give a nice reference to the emitted file
             // https://github.com/rollup/rollup/wiki/Plugins#asset-urls
-            lines.push(`    backgroundImage: \`url("\${import.meta.ROLLUP_ASSET_URL_${assetId}}")\`,`)
+            lines.push(`    image: new Image(import.meta.ROLLUP_ASSET_URL_${assetId}}),`)
             lines.push('}')
 
             return lines.join('\n')

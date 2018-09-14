@@ -1,9 +1,13 @@
 declare module '*.png' {
-    interface Image {
-
+    export interface PNG {
+        image : HTMLImageElement
+        x : number
+        y : number
+        width : number
+        height : number
     }
 
-    const x : Image
+    const v : PNG
 
-    export default x
+    export default v
 }
