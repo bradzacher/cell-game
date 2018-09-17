@@ -14,9 +14,9 @@ class Game {
     }
 
     public constructor(renderTarget : HTMLCanvasElement) {
-        this.camera = new Camera()
+        this.camera = new Camera({ renderTarget })
         this.physics = new PhysicsEngine()
-        this.graphics = new GraphicsEngine(this.camera, renderTarget)
+        this.graphics = new GraphicsEngine(this.camera)
     }
 
     /**

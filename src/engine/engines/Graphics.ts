@@ -24,56 +24,68 @@ class GraphicsEngine extends Engine {
         super()
 
         this.camera = camera
-
-        this.camera.renderTarget.addEventListener('resize', this.onRenderTargetResize)
-        this.onRenderTargetResize()
         const ctx = this.camera.renderTarget.getContext('2d')
         if (ctx === null) {
             throw new Error('Error initialising camera - could not get render context')
         }
-
         this.renderContext = ctx
+
+        // have to do this after initialising the context
+        this.camera.renderTarget.addEventListener('resize', this.onRenderTargetResize)
+        window.addEventListener('resize', this.onRenderTargetResize)
+        this.onRenderTargetResize()
     }
 
-    private onRenderTargetResize() {
+    private onRenderTargetResize = () => {
         const bcr = this.camera.renderTarget.getBoundingClientRect()
         this.viewportSize = new Size(bcr.height, bcr.width)
         this.viewportCenter = new Vector(this.viewportSize.width / 2, this.viewportSize.height / 2)
+        this.camera.renderTarget.height = this.viewportSize.height
+        this.camera.renderTarget.width = this.viewportSize.width
+        this.rerender()
     }
 
     public tick() {
+        this.rerender()
+    }
+
+    private rerender() {
+        this.renderContext.save()
+
         // clear the canvas
-        this.camera.renderTarget.width = this.viewportSize.width
+        this.renderContext.clearRect(0, 0, this.viewportSize.height, this.viewportSize.width)
 
         // we treat the top left corner of the render canvas as (0,0)
         // and the center of the camera is the center of the physical render target
         const cameraOffset = this.camera.center.add(this.viewportCenter)
+        this.renderContext.translate(cameraOffset.x, cameraOffset.y)
+        // console.log(this.viewportCenter)
+        this.renderContext.fillStyle = 'black'
+        this.renderContext.fillRect(0, 0, 10, 10)
 
         // TODO - render each renderable
         this.renderables.forEach((thing) => {
-            const animate = thing.getComponent(Animateable)
-            const render = thing.getComponent(Renderable)
+            const render = thing.getComponent(Renderable)! /*|| thing.getComponent(Animateable)*/
 
-            if (animate) {
-                // TODO - tick the animation
-            } else if (render) {
-                const sprite = render.sprite
-                this.renderContext.drawImage(
-                    sprite.image,
-                    // spritesheet location
-                    sprite.x,
-                    sprite.y,
-                    sprite.height,
-                    sprite.width,
-                    // draw location
-                    thing.center.x - (sprite.width / 2),
-                    thing.center.y - (sprite.height / 2),
-                    sprite.height,
-                    sprite.width,
-                )
-            }
+            const sprite = render.sprite
+            this.renderContext.drawImage(
+                sprite.image,
+                // spritesheet location
+                sprite.x,
+                sprite.y,
+                sprite.height,
+                sprite.width,
+                // draw location
+                thing.center.x - (sprite.height / 2),
+                thing.center.y - (sprite.width / 2),
+                sprite.height,
+                sprite.width,
+            )
         })
+
+        this.renderContext.restore()
     }
+
     public addThing(thing : Thing) {
         if (relevantComponents.some(c => thing.hasComponent(c))) {
             this.renderables.add(thing)
