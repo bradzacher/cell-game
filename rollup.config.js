@@ -1,4 +1,5 @@
 import * as path from 'path'
+import browsersync from 'rollup-plugin-browsersync'
 import html from 'rollup-plugin-fill-html'
 import typescript from 'rollup-plugin-typescript2'
 import resolve from 'rollup-plugin-node-resolve'
@@ -11,6 +12,10 @@ export default {
     output: {
         file: './build/index.js',
         format: 'iife',
+        sourcemap: true,
+    },
+    watch: {
+        include: 'src/**/*',
     },
 
     plugins: [
@@ -25,5 +30,13 @@ export default {
         resolve({
             browser: true,
         }),
+        ...(process.argv.includes('--watch') || process.argv.includes('-w')
+            ? [
+                browsersync({
+                    server: './build',
+                    port: 2723,
+                }),
+            ]
+            : []),
     ],
 }

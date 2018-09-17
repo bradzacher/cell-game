@@ -9,10 +9,11 @@
   "private": true,
   "devDependencies": {
     "debug": "^4.0.1",
-    "eslint-import-resolver-node": "^0.3.2",
-    "eslint-import-resolver-typescript": "^1.0.2",
+    "eslint-config-assignar-node": "^1.3.0",
+    "glob": "^7.1.3",
     "resolve": "^1.8.1",
     "rollup": "^0.65.2",
+    "rollup-plugin-browsersync": "^0.2.6",
     "rollup-plugin-fill-html": "^1.1.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-typescript2": "^0.17.0",
@@ -23,10 +24,7 @@
   },
   "scripts": {
     "prebuild": "rm -fr build",
-    "build": "rollup -c"
-  },
-  "dependencies": {
-    "eslint-config-assignar-node": "^1.3.0",
-    "glob": "^7.1.3"
+    "build": "rollup -c",
+    "start": "rollup -c -w"
   }
 }
