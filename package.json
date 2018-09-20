@@ -12,7 +12,7 @@
     "eslint-config-assignar-node": "^1.3.0",
     "glob": "^7.1.3",
     "resolve": "^1.8.1",
-    "rollup": "^0.65.2",
+    "rollup": "^0.66.1",
     "rollup-plugin-browsersync": "^0.2.6",
     "rollup-plugin-fill-html": "^1.1.0",
     "rollup-plugin-node-resolve": "^3.4.0",

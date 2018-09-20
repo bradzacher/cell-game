@@ -20,6 +20,34 @@ class Game {
     }
 
     /**
+     * Starts the game engine
+     * @param rate the number of ticks per second
+     */
+    public start(rate : number = 30) {
+        let tickCount = 0
+        let tickAverageMs = 0
+
+        window.setInterval(() => {
+            performance.mark('tick-start')
+
+            this.tick()
+
+            performance.mark('tick-end')
+            performance.measure('tick-duration', 'tick-start', 'tick-end')
+            const timer = performance.getEntriesByName('tick-duration')[0]
+            performance.clearMarks()
+            performance.clearMeasures()
+
+            tickCount += 1
+            tickAverageMs += (timer.duration - tickAverageMs) / tickCount
+
+            if (tickCount % rate === 0) {
+                console.info('Average tick duration: ', Math.round(tickAverageMs * 10000) / 10000, 'ms')
+            }
+        }, 1000 / rate)
+    }
+
+    /**
      * Registers a thing in the game and its engines
      */
     public addThing(thing : Thing) {
