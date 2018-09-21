@@ -14,7 +14,7 @@ abstract class Engine {
     /**
      * Removes a thing from the engine.
      */
-    public abstract reomveThing(thing : Thing) : void
+    public abstract removeThing(thing : Thing) : void
 }
 
 export default Engine

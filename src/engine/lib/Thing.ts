@@ -5,18 +5,18 @@ import Size from '~/engine/lib/Size'
 import Vector from '~/engine/lib/Vector'
 
 export interface ConstructorArgs {
-    center ?: Vector
+    topLeft ?: Vector
     size ?: Size
-    facing ?: Direction.UP
+    facing ?: Direction
     velocity ?: Vector
     components ?: Component[]
 }
 
 class Thing {
     /**
-     * The center square for the thing
+     * The top-left corner of the thing
      */
-    public center : Vector
+    public topLeft : Vector
     /**
      * The dimensions of the thing
      */
@@ -37,13 +37,13 @@ class Thing {
     private readonly components : Map<number, Component> = new Map()
 
     public constructor({
-        center = new Vector(0, 0),
+        topLeft = new Vector(0, 0),
         size = new Size(0, 0),
         facing = Direction.UP,
         velocity = new Vector(0, 0),
         components = [] as Component[],
     } : ConstructorArgs = {}) {
-        this.center = center
+        this.topLeft = topLeft
         this.size = size
         this.facing = facing
         this.velocity = velocity

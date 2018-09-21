@@ -11,14 +11,18 @@ const relevantComponents = [
     Component.getTypeGuid(Renderable),
     Component.getTypeGuid(Animateable),
 ]
+export const squareSize = 64
+window.debugRender = true
 
 class GraphicsEngine extends Engine {
     private readonly camera : Camera
     private readonly renderables = new Set<Thing>()
     private readonly renderContext : CanvasRenderingContext2D
+    private readonly cameraSquareOffset = new Vector(-squareSize / 2, -squareSize / 2)
 
     private viewportSize : Size = new Size(0, 0)
     private viewportCenter : Vector = new Vector(0, 0)
+    private background : string = '#000000'
 
     public constructor(camera : Camera) {
         super()
@@ -57,11 +61,20 @@ class GraphicsEngine extends Engine {
 
         // we treat the top left corner of the render canvas as (0,0)
         // and the center of the camera is the center of the physical render target
-        const cameraOffset = this.camera.center.add(this.viewportCenter)
+        const cameraOffset = this.camera.topLeft.add(this.viewportCenter).add(this.cameraSquareOffset)
         this.renderContext.translate(cameraOffset.x, cameraOffset.y)
 
-        // TODO - render each renderable
+        // set the background
+        this.renderContext.fillStyle = this.background
+        this.renderContext.fillRect(
+            -this.viewportCenter.x,
+            -this.viewportCenter.y,
+            this.viewportSize.width + squareSize,
+            this.viewportSize.height + squareSize,
+        )
+
         this.renderables.forEach((thing) => {
+            // TODO - render animateables
             const render = thing.getComponent(Renderable)! /*|| thing.getComponent(Animateable)*/
 
             const sprite = render.sprite
@@ -73,14 +86,35 @@ class GraphicsEngine extends Engine {
                 sprite.width,
                 sprite.height,
                 // draw location
-                thing.center.x - (sprite.width / 2),
-                thing.center.y - (sprite.height / 2),
+                thing.topLeft.x,
+                thing.topLeft.y,
                 sprite.width,
                 sprite.height,
             )
         })
-        this.renderContext.fillStyle = 'red'
-        this.renderContext.fillRect(0, 0, 10, 10)
+
+        // render some helpful debug artefacts if requested
+        if (window.debugRender) {
+            // draw a square at (0,0)
+            this.renderContext.fillStyle = 'red'
+            this.renderContext.fillRect(27, 27, 10, 10)
+
+            // draw a grid
+            this.renderContext.strokeStyle = 'red'
+            const max = 10 * squareSize
+            for (let i = -10; i < 10; i += 1) {
+                const offset = squareSize * i
+                this.renderContext.moveTo(-max, offset)
+                this.renderContext.lineTo(max, offset)
+                this.renderContext.stroke()
+            }
+            for (let i = -10; i < 10; i += 1) {
+                const offset = squareSize * i
+                this.renderContext.moveTo(offset, -max)
+                this.renderContext.lineTo(offset, max)
+                this.renderContext.stroke()
+            }
+        }
 
         this.renderContext.restore()
     }
@@ -90,8 +124,18 @@ class GraphicsEngine extends Engine {
             this.renderables.add(thing)
         }
     }
-    public reomveThing(thing : Thing) {
+    public removeThing(thing : Thing) {
         this.renderables.delete(thing)
+    }
+
+
+    /**
+     * Sets the colour used to draw on the background of the scene
+     *
+     * @param {string} background - a valid css colour string
+     */
+    public setBackground(background : string) {
+        this.background = background
     }
 }
 

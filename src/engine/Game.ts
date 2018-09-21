@@ -1,16 +1,18 @@
+import GraphicsEngine from '~/engine/engines/Graphics'
 import PhysicsEngine from '~/engine/engines/Physics'
 import Camera from '~/engine/lib/Camera'
+import Level from '~/engine/lib/Level'
 import Thing from '~/engine/lib/Thing'
-import GraphicsEngine from '~/engine/engines/Graphics'
 
 class Game {
     private readonly camera : Camera
     private readonly physics : PhysicsEngine
     private readonly graphics : GraphicsEngine
 
-    private readonly thingsWritable = new Set<Thing>()
+    private readonly levels = new Map<string, Level>()
+    private readonly thingsBacker = new Set<Thing>()
     public get things() {
-        return this.thingsWritable as ReadonlySet<Thing>
+        return this.thingsBacker as ReadonlySet<Thing>
     }
 
     public constructor(renderTarget : HTMLCanvasElement) {
@@ -50,9 +52,9 @@ class Game {
     /**
      * Registers a thing in the game and its engines
      */
-    public addThing(thing : Thing) {
+    public addThing = (thing : Thing) => {
         // keep track of the thing
-        this.thingsWritable.add(thing)
+        this.thingsBacker.add(thing)
 
         // add it to the engines (let them decide if they care about the thing)
         this.physics.addThing(thing)
@@ -62,11 +64,33 @@ class Game {
     /**
      * Removes a thing from the engine
      */
-    public removeThing(thing : Thing) {
-        this.graphics.addThing(thing)
-        this.physics.reomveThing(thing)
-        this.thingsWritable.delete(thing)
+    public removeThing = (thing : Thing) => {
+        this.graphics.removeThing(thing)
+        this.physics.removeThing(thing)
+        this.thingsBacker.delete(thing)
         thing.deconstructor()
+    }
+
+    /**
+     * Adds a level to the engine
+     */
+    public addLevel = (level : Level) => {
+        this.levels.set(level.name, level)
+    }
+
+    /**
+     * Loads a level into the engine.
+     * This will remove and destroy everything already loaded into the engine.
+     */
+    public loadLevel = (name : string) => {
+        const level = this.levels.get(name)
+        if (!level) {
+            throw new Error(`Unknown level: ${name}`)
+        }
+
+        this.thingsBacker.forEach(this.removeThing)
+        level.things.forEach(this.addThing)
+        this.graphics.setBackground(level.background)
     }
 
     /**

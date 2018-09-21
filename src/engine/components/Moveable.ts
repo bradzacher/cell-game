@@ -10,7 +10,7 @@ class Moveable extends Component {
     public receive<T extends BroadcastEvent>(event : T, payloadIn : BroadcastEventPayload[T]) : void {
         if (event === BroadcastEvent.DoMove) {
             const payload = payloadIn as BroadcastEventPayload[BroadcastEvent.DoMove]
-            this.attachedTo.center = this.attachedTo.center.move(payload.direction, payload.speed)
+            this.attachedTo.topLeft = this.attachedTo.topLeft.move(payload.direction, payload.speed)
         }
     }
 }

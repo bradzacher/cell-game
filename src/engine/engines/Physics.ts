@@ -22,7 +22,7 @@ class PhysicsEngine extends Engine {
             this.things.add(thing)
         }
     }
-    public reomveThing(thing : Thing) {
+    public removeThing(thing : Thing) {
         this.things.delete(thing)
     }
 }

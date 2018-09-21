@@ -9,10 +9,13 @@ type CollidableCallback = (direction : Direction) => void
  */
 class Collidable extends Component {
     private readonly callback : CollidableCallback
-    public constructor(callback : CollidableCallback) {
+    /**
+     * @param callback called when the parent is collided with. default is to do nothing.
+     */
+    public constructor(callback ?: CollidableCallback) {
         super()
 
-        this.callback = callback
+        this.callback = callback || (() => {})
     }
 
     public cleanup() {}
