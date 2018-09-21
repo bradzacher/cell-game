@@ -23,7 +23,7 @@ export default {
             template: './src/index.html',
         }),
         sprites({
-            rootPath: `${path.resolve(`${__dirname}/assets/sprites`)}/**/*.png`,
+            rootPath: `${path.resolve(`${__dirname}/src/assets/sprites`)}/**/*.png`,
         }),
         fonts(),
         typescript(),

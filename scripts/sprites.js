@@ -1,6 +1,10 @@
 import * as glob from 'glob'
 import Spritesmith from 'spritesmith'
 
+// rollup requires relative to the root....
+// eslint-disable-next-line import/no-unresolved
+const resolverTypescript = require('./scripts/resolver-typescript.js')
+
 function createSheet(rootPath) {
     return new Promise((resolve, reject) => {
         const images = glob.sync(rootPath)
@@ -28,6 +32,21 @@ export default function sprites({ rootPath }) {
 
     return {
         name: 'sprites',
+
+        resolveId(importee, importer) {
+            if (!importee.endsWith('.png')) {
+                return null
+            }
+
+            // use typescript to resolve the path to the file!
+            const resolveRes = resolverTypescript.resolve(importee, importer)
+
+            if (resolveRes.found) {
+                return resolveRes.path
+            }
+
+            return null
+        },
 
         // TODO - use async when https://github.com/puleos/object-hash/issues/67 is fixed
         buildStart() {

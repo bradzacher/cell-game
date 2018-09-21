@@ -24,7 +24,7 @@ function resolveFile(source, file, config) {
             }
         }
 
-        const searchStart = config.directory || process.cwd()
+        const searchStart = (config && config.directory) || process.cwd()
         const configLoaderResult = tsconfigPaths.loadConfig(searchStart)
         if (configLoaderResult.resultType !== 'success') {
             throw new Error(`Unable to find tsconfig in ${searchStart}: ${configLoaderResult.message}`)

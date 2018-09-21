@@ -12,9 +12,7 @@
             "args": [
                 "-c"
             ],
-            "outFiles": [
-                "${workspaceFolder}/**/*.js"
-            ]
+            "sourceMaps": false
         }
     ]
 }
