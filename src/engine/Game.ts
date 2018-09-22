@@ -28,6 +28,7 @@ class Game {
     public start(rate : number = 30) {
         let tickCount = 0
         let tickAverageMs = 0
+        const maxTickDurationMs = 1000 / rate
 
         window.setInterval(() => {
             performance.mark('tick-start')
@@ -46,7 +47,10 @@ class Game {
             if (tickCount % rate === 0) {
                 console.info('Average tick duration: ', Math.round(tickAverageMs * 10000) / 10000, 'ms')
             }
-        }, 1000 / rate)
+            if (timer.duration > maxTickDurationMs) {
+                console.error('Tick ran over budget! Budgetted', maxTickDurationMs, 'ms, ran for', timer.duration, 'ms')
+            }
+        }, maxTickDurationMs)
     }
 
     /**

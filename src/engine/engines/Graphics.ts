@@ -2,6 +2,7 @@ import Animateable from '~/engine/components/Animateable'
 import Renderable from '~/engine/components/Renderable'
 import Camera from '~/engine/lib/Camera'
 import Component from '~/engine/lib/Component'
+import { GRID_SIZE } from '~/engine/lib/Constants'
 import Engine from '~/engine/lib/Engine'
 import Size from '~/engine/lib/Size'
 import Thing from '~/engine/lib/Thing'
@@ -11,14 +12,13 @@ const relevantComponents = [
     Component.getTypeGuid(Renderable),
     Component.getTypeGuid(Animateable),
 ]
-export const squareSize = 64
 window.debugRender = true
 
 class GraphicsEngine extends Engine {
     private readonly camera : Camera
     private readonly renderables = new Set<Thing>()
     private readonly renderContext : CanvasRenderingContext2D
-    private readonly cameraSquareOffset = new Vector(-squareSize / 2, -squareSize / 2)
+    private readonly cameraSquareOffset = new Vector(-GRID_SIZE / 2, -GRID_SIZE / 2)
 
     private viewportSize : Size = new Size(0, 0)
     private viewportCenter : Vector = new Vector(0, 0)
@@ -69,8 +69,8 @@ class GraphicsEngine extends Engine {
         this.renderContext.fillRect(
             -this.viewportCenter.x,
             -this.viewportCenter.y,
-            this.viewportSize.width + squareSize,
-            this.viewportSize.height + squareSize,
+            this.viewportSize.width + GRID_SIZE,
+            this.viewportSize.height + GRID_SIZE,
         )
 
         this.renderables.forEach((thing) => {
@@ -101,15 +101,15 @@ class GraphicsEngine extends Engine {
 
             // draw a grid
             this.renderContext.strokeStyle = 'red'
-            const max = 10 * squareSize
+            const max = 10 * GRID_SIZE
             for (let i = -10; i < 10; i += 1) {
-                const offset = squareSize * i
+                const offset = GRID_SIZE * i
                 this.renderContext.moveTo(-max, offset)
                 this.renderContext.lineTo(max, offset)
                 this.renderContext.stroke()
             }
             for (let i = -10; i < 10; i += 1) {
-                const offset = squareSize * i
+                const offset = GRID_SIZE * i
                 this.renderContext.moveTo(offset, -max)
                 this.renderContext.lineTo(offset, max)
                 this.renderContext.stroke()

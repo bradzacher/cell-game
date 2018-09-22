@@ -2,7 +2,7 @@
 import { PNG } from '*.png'
 import Renderable from '~/engine/components/Renderable'
 import Collidable from '~/engine/components/Collidable'
-import { squareSize } from '~/engine/engines/Graphics'
+import { GRID_SIZE } from '~/engine/lib/Constants'
 import Size from '~/engine/lib/Size'
 import Thing from '~/engine/lib/Thing'
 import Vector from '~/engine/lib/Vector'
@@ -75,13 +75,13 @@ class Level {
 
         // add a thing for the floor first, so the object render on top of it
         floor.forEach((config) => {
-            const offset = new Vector(config.topLeft.x * squareSize, config.topLeft.y * squareSize)
+            const offset = new Vector(config.topLeft.x * GRID_SIZE, config.topLeft.y * GRID_SIZE)
             for (let row = 0; row < config.size.height; row += 1) {
                 for (let col = 0; col < config.size.width; col += 1) {
                     this.things.push(new Thing({
                         topLeft: new Vector(
-                            offset.x + row * config.sprite.height,
-                            offset.y + col * config.sprite.width,
+                            offset.x + col * config.sprite.width,
+                            offset.y + row * config.sprite.height,
                         ),
                         size: new Size(config.sprite.height, config.sprite.width),
                         components: [
@@ -93,15 +93,15 @@ class Level {
         })
 
         walls.forEach((config) => {
-            const offset = new Vector(config.topLeft.x * squareSize, config.topLeft.y * squareSize)
+            const offset = new Vector(config.topLeft.x * GRID_SIZE, config.topLeft.y * GRID_SIZE)
             for (let row = 0; row < config.size.height; row += 1) {
                 for (let col = 0; col < config.size.width; col += 1) {
                     this.things.push(new Thing({
                         topLeft: new Vector(
-                            offset.x + row * squareSize,
-                            offset.y + col * squareSize,
+                            offset.x + col * GRID_SIZE,
+                            offset.y + row * GRID_SIZE,
                         ),
-                        size: new Size(squareSize, squareSize),
+                        size: new Size(GRID_SIZE, GRID_SIZE),
                         components: ([
                             new Collidable(),
                         ] as any[]).concat(config.sprite ? [new Renderable(config.sprite)] : []),
@@ -123,6 +123,7 @@ export { default as Animateable } from '~/engine/components/Animateable'
 export { default as Collidable } from '~/engine/components/Collidable'
 export { default as Moveable } from '~/engine/components/Moveable'
 export { default as Renderable } from '~/engine/components/Renderable'
+export { GRID_SIZE } from '~/engine/lib/Constants'
 export { default as Direction } from '~/engine/lib/Direction'
 export { default as Size } from '~/engine/lib/Size'
 export { default as Vector } from '~/engine/lib/Vector'
