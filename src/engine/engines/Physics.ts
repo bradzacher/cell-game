@@ -12,7 +12,7 @@ const relevantComponents = [
 class PhysicsEngine extends Engine {
     private readonly things = new Set<Thing>()
 
-    public tick() {
+    public tick(_ : number) {
         // calculate positions
         // determine collisions
         // apply movement

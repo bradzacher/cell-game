@@ -8,6 +8,11 @@ import floorTiles from '~/assets/sprites/terrain/floor-tiles.png'
 import stairsUp from '~/assets/sprites/terrain/stairs-up.png'
 import wall1 from '~/assets/sprites/terrain/wall1.png'
 
+import dudeDown from '~/assets/sprites/characters/dude/stand_down.png'
+import dudeLeft from '~/assets/sprites/characters/dude/stand_left.png'
+import dudeUp from '~/assets/sprites/characters/dude/stand_up.png'
+import dudeRight from '~/assets/sprites/characters/dude/stand_right.png'
+
 import * as Config from '~/engine/lib/Level'
 
 export default new Config.Level({
@@ -98,6 +103,31 @@ export default new Config.Level({
             ],
             topLeft: new Config.Vector(7 * Config.GRID_SIZE, -1 * Config.GRID_SIZE),
             size: new Config.Size(Config.GRID_SIZE, Config.GRID_SIZE),
+        }),
+        // character
+        new Config.Thing({
+            components: [
+                new Config.Animateable([
+                    {
+                        duration: 1000,
+                        sprite: dudeDown,
+                    },
+                    {
+                        duration: 1000,
+                        sprite: dudeLeft,
+                    },
+                    {
+                        duration: 1000,
+                        sprite: dudeUp,
+                    },
+                    {
+                        duration: 1000,
+                        sprite: dudeRight,
+                    },
+                ]),
+            ],
+            size: new Config.Size(Config.GRID_SIZE, Config.GRID_SIZE),
+            topLeft: new Config.Vector(1 * Config.GRID_SIZE, 1 * Config.GRID_SIZE),
         }),
     ],
     floor: [

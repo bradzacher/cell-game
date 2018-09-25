@@ -4,7 +4,7 @@ abstract class Engine {
     /**
      * Advances the engine one unit of time
      */
-    public abstract tick() : void
+    public abstract tick(time : number) : void
 
     /**
      * Add a thing to the engine.

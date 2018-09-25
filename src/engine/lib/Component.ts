@@ -5,6 +5,7 @@ let idCounter = 0
 const componentTypeGuidMap = new Map<Function, number>()
 
 export interface ComponentConstructor<T extends Component> {
+    /* eslint-disable-next-line typescript/no-explicit-any */// required signature for TS
     new (...args : any[]) : T
 }
 export type InferTypeFromConstructor<T> = T extends ComponentConstructor<infer U> ? U : never

@@ -31,25 +31,27 @@ class Game {
         const maxTickDurationMs = 1000 / rate
 
         window.setInterval(() => {
-            performance.mark('tick-start')
+            window.requestAnimationFrame((time) => {
+                performance.mark('tick-start')
 
-            this.tick()
+                this.tick(time)
 
-            performance.mark('tick-end')
-            performance.measure('tick-duration', 'tick-start', 'tick-end')
-            const timer = performance.getEntriesByName('tick-duration')[0]
-            performance.clearMarks()
-            performance.clearMeasures()
+                performance.mark('tick-end')
+                performance.measure('tick-duration', 'tick-start', 'tick-end')
+                const timer = performance.getEntriesByName('tick-duration')[0]
+                performance.clearMarks()
+                performance.clearMeasures()
 
-            tickCount += 1
-            tickAverageMs += (timer.duration - tickAverageMs) / tickCount
+                tickCount += 1
+                tickAverageMs += (timer.duration - tickAverageMs) / tickCount
 
-            if (tickCount % rate === 0) {
-                console.info('Average tick duration: ', Math.round(tickAverageMs * 10000) / 10000, 'ms')
-            }
-            if (timer.duration > maxTickDurationMs) {
-                console.error('Tick ran over budget! Budgetted', maxTickDurationMs, 'ms, ran for', timer.duration, 'ms')
-            }
+                if (tickCount % rate === 0) {
+                    console.info('Average tick duration: ', Math.round(tickAverageMs * 10000) / 10000, 'ms')
+                }
+                if (timer.duration > maxTickDurationMs) {
+                    console.error('Tick ran over budget! Max', maxTickDurationMs, 'ms, ran for', timer.duration, 'ms')
+                }
+            })
         }, maxTickDurationMs)
     }
 
@@ -100,9 +102,9 @@ class Game {
     /**
      * Advances the game engine one round.
      */
-    public tick() {
-        this.physics.tick()
-        this.graphics.tick()
+    public tick(time : number) {
+        this.physics.tick(time)
+        this.graphics.tick(time)
     }
 }
 

@@ -9,8 +9,8 @@ import Thing from '~/engine/lib/Thing'
 import Vector from '~/engine/lib/Vector'
 
 const relevantComponents = [
-    Component.getTypeGuid(Renderable),
     Component.getTypeGuid(Animateable),
+    Component.getTypeGuid(Renderable),
 ]
 window.debugRender = true
 
@@ -46,14 +46,14 @@ class GraphicsEngine extends Engine {
         this.viewportCenter = new Vector(this.viewportSize.width / 2, this.viewportSize.height / 2)
         this.camera.renderTarget.height = this.viewportSize.height
         this.camera.renderTarget.width = this.viewportSize.width
-        this.rerender()
+        this.rerender(performance.now())
     }
 
-    public tick() {
-        this.rerender()
+    public tick(time : number) {
+        this.rerender(time)
     }
 
-    private rerender() {
+    private rerender(time : number) {
         this.renderContext.save()
 
         // clear the canvas
@@ -74,10 +74,12 @@ class GraphicsEngine extends Engine {
         )
 
         this.renderables.forEach((thing) => {
-            // TODO - render animateables
-            const render = thing.getComponent(Renderable)! /*|| thing.getComponent(Animateable)*/
+            // components cannot be removed from live components so cannot be null
+            /* eslint-disable-next-line typescript/no-non-null-assertion */
+            const renderable = thing.getComponent(Renderable)! || thing.getComponent(Animateable)!
+            renderable.tick(time)
 
-            const sprite = render.sprite
+            const sprite = renderable.sprite
             this.renderContext.drawImage(
                 sprite.image,
                 // spritesheet location
