@@ -1,8 +1,8 @@
+/* eslint-disable import/no-unresolved, import/no-self-import, import/no-extraneous-dependencies */
 import * as glob from 'glob'
 import Spritesmith from 'spritesmith'
 
 // rollup requires relative to the root....
-// eslint-disable-next-line import/no-unresolved
 const resolverTypescript = require('./scripts/resolver-typescript.js')
 
 function createSheet(rootPath) {

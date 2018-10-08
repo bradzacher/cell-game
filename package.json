@@ -10,6 +10,7 @@
   "devDependencies": {
     "debug": "^4.0.1",
     "eslint-config-assignar-node": "^1.3.0",
+    "eslint-import-resolver-typescript": "^1.1.0",
     "glob": "^7.1.3",
     "resolve": "^1.8.1",
     "rollup": "^0.66.1",

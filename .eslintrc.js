@@ -6,7 +6,7 @@ module.exports = {
     ],
     settings: {
         'import/resolver': {
-            [path.resolve('./scripts/resolver-typescript.js')]: {},
+            'typescript': {},
         },
         'typescript/type-annotation-spacing': [
             'error',
